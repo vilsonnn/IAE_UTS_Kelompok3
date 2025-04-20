@@ -1,16 +1,34 @@
+
+---
+
+## 📁 `lms-userservice/README.md`
+
+```markdown
+
+
 # 📘 UserService
 
-Service untuk menyediakan data user (mahasiswa, dosen) dan mengambil informasi course yang diajar user.
+Service ini menyediakan data pengguna (mahasiswa dan dosen) dalam sistem LMS. Selain sebagai penyedia data user, service ini juga bertindak sebagai **consumer** yang mengambil data course dari `CourseService`.
+
+---
 
 ## 📌 Base URL
-http://localhost:5001
 
+`http://localhost:5001`
+
+---
 
 ## 🔗 Endpoint
 
 ### `GET /users/<user_id>`
 
-- Mengambil data user berdasarkan ID.
+- Mengambil informasi user berdasarkan ID.
+
+**Contoh Request:**
+
+```
+GET http://localhost:5001/users/1
+```
 
 **Contoh Response:**
 
@@ -20,11 +38,24 @@ http://localhost:5001
   "name": "Mahasiswa 1",
   "role": "student"
 }
+```
 
-GET /users/<user_id>/courses
-Mengambil semua course yang diajar oleh user dengan role "teacher". Mengambil data dari CourseService.
+---
 
-Contoh Responses:
+### `GET /users/<user_id>/courses`
+
+- Mengambil daftar mata kuliah yang diajar oleh user (dosen) berdasarkan ID.
+- Endpoint ini melakukan request ke `CourseService`.
+
+**Contoh Request:**
+
+```
+GET http://localhost:5001/users/1/courses
+```
+
+**Contoh Response:**
+
+```json
 {
   "user_id": 1,
   "courses": [
@@ -32,21 +63,28 @@ Contoh Responses:
       "id": 101,
       "title": "Pemrograman Web",
       "teacher_id": 1
+    },
+    {
+      "id": 102,
+      "title": "Struktur Data",
+      "teacher_id": 1
     }
   ]
 }
+```
 
-⚙️ Teknologi
-Python 3
+---
 
-Flask
+## 🧠 Peran
 
-HTTP communication with requests
+- ✅ **Provider** data user.
+- ✅ **Consumer** data course dari `CourseService`.
 
+---
 
-🧠 Peran
-✅ Provider data user.
+## ⚙️ Teknologi
 
-✅ Consumer data course dari CourseService.
-
-
+- Python 3
+- Flask
+- JSON (REST API)
+- Service-to-Service Communication menggunakan `requests` module
